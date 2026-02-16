@@ -47,7 +47,7 @@ public class Main {
                 tokens.seek(0);
                 ParseTree tree = parser.s();
                 myVisitor eval = new myVisitor();
-                Integer ans = eval.visit(tree);
+                Boolean ans = eval.visit(tree);
                 System.out.println("Ans: " + ans);
 
             } catch (Exception e) {
