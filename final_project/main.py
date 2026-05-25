@@ -1,6 +1,6 @@
 import subprocess
 from typing import List
-
+from itertools import permutations
 from antlr4 import *
 from gen.mainLexer import mainLexer
 from gen.mainParser import mainParser
@@ -50,18 +50,32 @@ def validate(orders: List[Order]):
 
 
 def _solve(orders: List[Order]) -> None:
-    sorted_orders = sorted(orders, key=lambda o: o.max_deliver_time)
-    time = 0
-    total_penalty = 0
-    result = []
-    for o in sorted_orders:
-        time += o.preparation_time + o.deliver_time
-        late = max(0, time - o.max_deliver_time)
-        penalty = late * o.penalization if late > 0 else 0
-        total_penalty += penalty
-        result.append({'order': o.name, 'finish': time,
-                       'late': late, 'penalty': penalty})
-    return result, total_penalty
+    best_penalty = float('inf')
+    best_result = []
+
+    for p in permutations(orders):
+        time = 0
+        total_penalty = 0
+        current_result = []
+
+        for o in p:
+            time += o.preparation_time + o.deliver_time
+            late = max(0, time - o.max_deliver_time)
+            penalty = late * o.penalization
+            total_penalty += penalty
+
+            current_result.append({
+                'order': o.name,
+                'finish': time,
+                'late': late,
+                'penalty': penalty
+            })
+
+        if total_penalty < best_penalty:
+            best_penalty = total_penalty
+            best_result = current_result
+
+    return best_result, best_penalty
 
 def build_llvm(orders, schedule_result, total_penalty):
     module = ir.Module(name="scheduler")

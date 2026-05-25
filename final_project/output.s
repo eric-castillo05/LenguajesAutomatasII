@@ -20,20 +20,20 @@ main:
 	xorl	%r9d, %r9d
 	xorl	%eax, %eax
 	callq	printf@PLT
-	leaq	name_B(%rip), %rdx
+	leaq	name_D(%rip), %rdx
 	movq	%rbx, %rdi
 	movl	$2, %esi
-	movl	$5, %ecx
+	movl	$6, %ecx
 	xorl	%r8d, %r8d
 	xorl	%r9d, %r9d
 	xorl	%eax, %eax
 	callq	printf@PLT
-	leaq	name_D(%rip), %rdx
+	leaq	name_B(%rip), %rdx
 	movq	%rbx, %rdi
 	movl	$3, %esi
 	movl	$8, %ecx
-	movl	$1, %r8d
-	movl	$30, %r9d
+	movl	$2, %r8d
+	movl	$20, %r9d
 	xorl	%eax, %eax
 	callq	printf@PLT
 	leaq	name_C(%rip), %rdx
@@ -45,7 +45,7 @@ main:
 	xorl	%eax, %eax
 	callq	printf@PLT
 	leaq	fmt_total(%rip), %rdi
-	movl	$130, %esi
+	movl	$120, %esi
 	xorl	%eax, %eax
 	callq	printf@PLT
 	xorl	%eax, %eax
@@ -74,15 +74,15 @@ name_A:
 	.asciz	"A"
 	.size	name_A, 2
 
-	.type	name_B,@object
-name_B:
-	.asciz	"B"
-	.size	name_B, 2
-
 	.type	name_D,@object
 name_D:
 	.asciz	"D"
 	.size	name_D, 2
+
+	.type	name_B,@object
+name_B:
+	.asciz	"B"
+	.size	name_B, 2
 
 	.type	name_C,@object
 name_C:
